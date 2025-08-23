@@ -10,6 +10,7 @@ def init_database():
     """
     Initialisation de la base de données
     """
+    os.makedirs("data", exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
