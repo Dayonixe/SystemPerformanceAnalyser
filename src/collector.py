@@ -11,14 +11,22 @@ def get_timestamp():
 def get_cpu_usage():
     """
     Récupération du pourcentage de l'utilisation CPU courante
-    :return: Utilisation CPU courante
+    :return: Taux d'utilisation du CPU courante
     """
     return psutil.cpu_percent(interval=1)
+
+def get_max_cpu_percent():
+    """
+    Récupération du pourcentage maximal possible d'utilisation CPU par processus, basé sur le nombre de cœurs logiques
+    :return: Taux maximal possible d'utilisation du CPU courante
+    """
+    return 100.0 * psutil.cpu_count()
+
 
 def get_ram_usage():
     """
     Récupération du pourcentage de l'utilisation RAM courante
-    :return: Utilisation RAM courante
+    :return: Taux d'utilisation de la RAM courante
     """
     return psutil.virtual_memory().percent
 

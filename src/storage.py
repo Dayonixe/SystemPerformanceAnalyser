@@ -4,13 +4,13 @@ import sqlite3
 import os
 import json
 
-DB_PATH = os.path.join("data", "metrics.db")
+DB_PATH = os.path.join("../data", "metrics.db")
 
 def init_database():
     """
     Initialisation de la base de données
     """
-    os.makedirs("data", exist_ok=True)
+    os.makedirs("../data", exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
@@ -25,11 +25,27 @@ def init_database():
     conn.commit()
     conn.close()
 
+def delete_database():
+    """
+    Suppression de la base de données
+    """
+    if os.path.exists(DB_PATH):
+        os.remove(DB_PATH)
+
 def insert_metrics(metrics: dict):
     """
     Insertion de données dans la base de données
     :param metrics: Dictionnaire contenant les données à insérer dans la base de données
     """
+    if not isinstance(metrics['timestamp'], str):
+        raise TypeError("timestamp must be a string")
+    if not isinstance(metrics['cpu'], (int, float)):
+        raise TypeError("cpu must be a float")
+    if not isinstance(metrics['ram'], (int, float)):
+        raise TypeError("ram must be a float")
+    if not isinstance(metrics['top_processes'], list):
+        raise TypeError("top_processes must be a list")
+
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
