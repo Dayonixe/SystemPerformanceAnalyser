@@ -4,20 +4,33 @@ import os
 import json
 
 from src import collector, storage
-from config.config import DB_PATH
+from config.config import DB_TEST_PATH
+
+@pytest.fixture(scope="module", autouse=True)
+def setup_and_teardown():
+    ###########################################################
+    #                          SETUP                          #
+    ###########################################################
+    print("\n[SETUP] Initialisation avant les tests du module")
+    storage.init_database(DB_TEST_PATH)
+    assert os.path.exists(DB_TEST_PATH)
+
+    yield  # Exécution des tests
+
+    ###########################################################
+    #                         TEARDOWN                        #
+    ###########################################################
+    print("\n[TEARDOWN] Nettoyage après les tests du module")
+    storage.delete_database(DB_TEST_PATH)
+    assert not os.path.exists(DB_TEST_PATH)
+
+
 
 def test_init_database_creates_file_and_table():
     """
     L'application doit pouvoir créer le fichier de base de données et la table 'metrics'
     """
-    # Supprimer la base si elle existe
-    storage.delete_database()
-
-    storage.init_database()
-    assert os.path.exists(DB_PATH)
-
-    # Vérifie la présence de la table
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_TEST_PATH)
     cursor = conn.cursor()
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='metrics';")
     assert cursor.fetchone() is not None
@@ -27,7 +40,6 @@ def test_storage_insert_and_read():
     """
     L'application doit pouvoir initier la base de données au besoin, ajouter et lire des données dans la base de données
     """
-    storage.init_database()
     data = collector.collect_metrics()
     storage.insert_metrics(data)
 
@@ -48,7 +60,6 @@ def test_insert_and_read_manual_data():
     """
     L'application doit pouvoir insérer des données manuellement et les relire correctement
     """
-    storage.init_database()
     mock_data = {
         'timestamp': '2025-08-23T12:00:00',
         'cpu': 12.5,

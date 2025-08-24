@@ -4,12 +4,13 @@ import json
 
 from config.config import DATA_PATH, DB_PATH
 
-def init_database():
+def init_database(db_path=DB_PATH):
     """
     Initialisation de la base de données
+    :param db_path: Chemin de la base de données
     """
     os.makedirs(DATA_PATH, exist_ok=True)
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS metrics (
@@ -23,17 +24,19 @@ def init_database():
     conn.commit()
     conn.close()
 
-def delete_database():
+def delete_database(db_path=DB_PATH):
     """
     Suppression de la base de données
+    :param db_path: Chemin de la base de données
     """
-    if os.path.exists(DB_PATH):
-        os.remove(DB_PATH)
+    if os.path.exists(db_path):
+        os.remove(db_path)
 
-def insert_metrics(metrics: dict):
+def insert_metrics(metrics: dict, db_path=DB_PATH):
     """
     Insertion de données dans la base de données
     :param metrics: Dictionnaire contenant les données à insérer dans la base de données
+    :param db_path: Chemin de la base de données
     """
     if not isinstance(metrics['timestamp'], str):
         raise TypeError("timestamp must be a string")
@@ -44,7 +47,7 @@ def insert_metrics(metrics: dict):
     if not isinstance(metrics['top_processes'], list):
         raise TypeError("top_processes must be a list")
 
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -60,13 +63,14 @@ def insert_metrics(metrics: dict):
     conn.commit()
     conn.close()
 
-def get_last_metrics(limit=5):
+def get_last_metrics(limit=5, db_path=DB_PATH):
     """
     Récupération des dernières lignes ajoutées à la base de données
     :param limit: Nombre de ligne à récupérer
+    :param db_path: Chemin de la base de données
     :return: Dernières lignes ajoutées à la base de données
     """
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     cursor.execute("""

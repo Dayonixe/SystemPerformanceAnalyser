@@ -1,21 +1,22 @@
 import os
 import sqlite3
 import matplotlib.pyplot as plt
-
 from datetime import datetime
+
 from config.config import DATA_PATH, DB_PATH
 
-def fetch_metrics(limit=100):
+def fetch_metrics(limit=100, db_path=DB_PATH):
     """
     Récupération des données depuis la base de données
     :param limit: Nombre maximum de données à récupérer
+    :param db_path: Chemin de la base de données
     :return: triplets de listes avec timestamps, cpu, et ram
     """
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute("""
         SELECT timestamp, cpu, ram FROM metrics
-        ORDER BY id DESC LIMIT ?
+        ORDER BY timestamp DESC LIMIT ?
     """, (limit,))
     rows = cursor.fetchall()
     conn.close()
@@ -27,14 +28,15 @@ def fetch_metrics(limit=100):
 
     return timestamps, cpu, ram
 
-def generate_plot(limit=100, save=False, filename="report.png"):
+def generate_plot(limit=100, save=False, filename="report.png", db_path=DB_PATH):
     """
     Génération d'un graphique des données enregistrées
     :param limit: Nombre maximum de données à afficher
     :param save: Booléen indiquant la volonté d'enregistrer le fichier
     :param filename: Nom du fichier s'il est enregistré
+    :param db_path: Chemin de la base de données
     """
-    timestamps, cpu, ram = fetch_metrics(limit)
+    timestamps, cpu, ram = fetch_metrics(limit, db_path)
 
     plt.figure(figsize=(12, 6))
     plt.plot(timestamps, cpu, label="CPU Usage (%)", marker='o')
