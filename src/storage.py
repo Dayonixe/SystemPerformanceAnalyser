@@ -1,16 +1,14 @@
-# src/storage.py
-
 import sqlite3
 import os
 import json
 
-DB_PATH = os.path.join("../data", "metrics.db")
+from config.config import DATA_PATH, DB_PATH
 
 def init_database():
     """
     Initialisation de la base de données
     """
-    os.makedirs("../data", exist_ok=True)
+    os.makedirs(DATA_PATH, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""

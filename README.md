@@ -59,3 +59,14 @@ options:
   -h, --help     show this help message and exit
   --limit LIMIT  Number of rows to display
 ```
+
+```bash
+> python cli.py report
+
+usage: cli.py report [-h] [--limit LIMIT] [--save]
+
+options:
+  -h, --help     show this help message and exit
+  --limit LIMIT  Number of data points to include
+  --save         Save report as PNG instead of showing it
+```
