@@ -40,8 +40,14 @@ def get_top_processes(top_n=5):
     for proc in psutil.process_iter(['pid', 'name', 'cpu_percent']):
         try:
             info = proc.info
+
+            # Exclure les processus systèmes inutiles ou faux positifs
+            if info['pid'] == 0 or 'idle' in info['name'].lower():
+                continue
+
             processes.append(info)
-        except psutil.NoSuchProcess:
+
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
             continue
 
     return sorted(processes, key=lambda p: p['cpu_percent'], reverse=True)[:top_n]
