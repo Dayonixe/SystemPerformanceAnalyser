@@ -2,8 +2,9 @@ import pytest
 import sqlite3
 import os
 import json
+
 from src import collector, storage
-from src.storage import DB_PATH
+from config.config import DB_PATH
 
 def test_init_database_creates_file_and_table():
     """

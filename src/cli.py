@@ -1,11 +1,12 @@
 import argparse
 import time
 import json
-from src import collector, storage
+
+from src import collector, storage, report
 
 def collect_command(args):
     print(f"Collecting metrics every {args.interval}s for {args.duration}s...")
-    storage.delete_database()
+    # storage.delete_database()
     storage.init_database()
     start_time = time.time()
     while time.time() - start_time < args.duration:
@@ -40,6 +41,12 @@ def main():
     show_parser = subparsers.add_parser("show", help="Show last collected metrics")
     show_parser.add_argument("--limit", type=int, default=5, help="Number of rows to display")
     show_parser.set_defaults(func=show_command)
+
+    # Commande : report
+    report_parser = subparsers.add_parser("report", help="Generate performance report")
+    report_parser.add_argument("--limit", type=int, default=100, help="Number of data points to include")
+    report_parser.add_argument("--save", action="store_true", help="Save report as PNG instead of showing it")
+    report_parser.set_defaults(func=lambda args: report.generate_plot(limit=args.limit, save=args.save))
 
     # Parse & exécute
     args = parser.parse_args()

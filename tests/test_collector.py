@@ -1,6 +1,7 @@
 import pytest
 from datetime import datetime
 import json
+
 from src import collector
 
 def test_collect_metrics_timestamp_is_iso():
