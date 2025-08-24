@@ -41,9 +41,9 @@ def test_storage_insert_and_read():
     L'application doit pouvoir initier la base de données au besoin, ajouter et lire des données dans la base de données
     """
     data = collector.collect_metrics()
-    storage.insert_metrics(data)
+    storage.insert_metrics(data, DB_TEST_PATH)
 
-    rows = storage.get_last_metrics(limit=1)
+    rows = storage.get_last_metrics(1, DB_TEST_PATH)
     assert len(rows) == 1
     ts, cpu, ram, processes = rows[0]
 
@@ -69,8 +69,8 @@ def test_insert_and_read_manual_data():
         ]
     }
 
-    storage.insert_metrics(mock_data)
-    rows = storage.get_last_metrics(1)
+    storage.insert_metrics(mock_data, DB_TEST_PATH)
+    rows = storage.get_last_metrics(1, DB_TEST_PATH)
     assert len(rows) == 1
     ts, cpu, ram, processes = rows[0]
 
@@ -95,7 +95,7 @@ def test_insert_fails_on_null_timestamp():
     }
 
     with pytest.raises(TypeError):
-        storage.insert_metrics(bad_data)
+        storage.insert_metrics(bad_data, DB_TEST_PATH)
 
 def test_insert_with_invalid_cpu_type():
     """
@@ -109,7 +109,7 @@ def test_insert_with_invalid_cpu_type():
     }
 
     with pytest.raises(TypeError):
-        storage.insert_metrics(bad_data)
+        storage.insert_metrics(bad_data, DB_TEST_PATH)
 
 def test_insert_with_invalid_cpu_type():
     """
@@ -123,7 +123,7 @@ def test_insert_with_invalid_cpu_type():
     }
 
     with pytest.raises(TypeError):
-        storage.insert_metrics(bad_data)
+        storage.insert_metrics(bad_data, DB_TEST_PATH)
 
 def test_insert_with_invalid_cpu_type():
     """
@@ -137,7 +137,7 @@ def test_insert_with_invalid_cpu_type():
     }
 
     with pytest.raises(TypeError):
-        storage.insert_metrics(bad_data)
+        storage.insert_metrics(bad_data, DB_TEST_PATH)
 
 def test_insert_with_invalid_cpu_type():
     """
@@ -151,7 +151,7 @@ def test_insert_with_invalid_cpu_type():
     }
 
     with pytest.raises(TypeError):
-        storage.insert_metrics(bad_data)
+        storage.insert_metrics(bad_data, DB_TEST_PATH)
 
 def test_insert_with_non_serializable_processes():
     """
@@ -165,4 +165,4 @@ def test_insert_with_non_serializable_processes():
     }
 
     with pytest.raises(TypeError):
-        storage.insert_metrics(bad_data)
+        storage.insert_metrics(bad_data, DB_TEST_PATH)
