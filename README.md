@@ -16,6 +16,7 @@ Team : Théo Pirouelle
 > For information, the code has been developed and works with the following library versions:
 > | Library | Version |
 > | --- | --- |
+> | matplotlib | 3.10.5 |
 > | psutil | 7.0.0 |
 > | pytest | 8.4.1 |
 
@@ -51,22 +52,14 @@ options:
 ```
 
 ```bash
-> python cli.py show
-
-usage: cli.py show [-h] [--limit LIMIT]
-
-options:
-  -h, --help     show this help message and exit
-  --limit LIMIT  Number of rows to display
-```
-
-```bash
 > python cli.py report
 
-usage: cli.py report [-h] [--limit LIMIT] [--save]
+usage: cli.py report [-h] [--limit LIMIT] [--since SINCE] [--last {hour,day}] [--save]
 
 options:
-  -h, --help     show this help message and exit
-  --limit LIMIT  Number of data points to include
-  --save         Save report as PNG instead of showing it
+  -h, --help         show this help message and exit
+  --limit LIMIT      Number of data points to include
+  --since SINCE      Start datetime (ISO format: YYYY-MM-DDTHH:MM)
+  --last {hour,day}  Use a pre-defined time filter
+  --save             Save report as PNG instead of showing i
 ```
