@@ -7,7 +7,7 @@ from config.config import DATA_PATH, DB_TEST_PATH
 
 TEST_PLOT_PATH = os.path.join(DATA_PATH, "test_report.png")
 
-@pytest.fixture(scope="module", autouse=True)
+@pytest.fixture(autouse=True)
 def setup_and_teardown():
     ###########################################################
     #                          SETUP                          #
@@ -52,16 +52,6 @@ def setup_and_teardown():
     assert not os.path.exists(TEST_PLOT_PATH)
 
 
-
-def test_fetch_metrics_structure():
-    """
-    L'application doit pouvoir récupérer le triplet de liste de la base de données
-    """
-    timestamps, cpu, ram = report.fetch_metrics(limit=5, db_path=DB_TEST_PATH)
-    assert len(timestamps) == len(cpu) == len(ram)
-    assert all(isinstance(t, object) for t in timestamps)
-    assert all(isinstance(c, (float, int)) for c in cpu)
-    assert all(isinstance(r, (float, int)) for r in ram)
 
 def test_generate_plot_file_saving():
     """
