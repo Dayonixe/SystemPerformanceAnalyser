@@ -27,9 +27,9 @@ Le projet est découpé en 4 modules principaux :
 
 ```mermaid
 flowchart LR
-    A[CLI (collect)] --> B[collector.collect_metrics()]
-    B --> C[storage.insert_metrics()]
-    C --> D[SQLite DB (data/metrics.db)]
+    A[CLI collect] --> B[collector.collect_metrics]
+    B --> C[storage.insert_metrics]
+    C --> D[SQLite DB: data/metrics.db]
 ```
 
 ---
@@ -38,9 +38,9 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[CLI (report)] --> B[report.fetch_metrics()]
+    A[CLI report] --> B[report.fetch_metrics]
     B --> C[SQLite DB]
-    C --> D[report.generate_plot()]
+    C --> D[report.generate_plot]
 ```
 
 ---
