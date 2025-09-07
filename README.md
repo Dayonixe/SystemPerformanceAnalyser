@@ -38,7 +38,7 @@ positional arguments:
     report-md           Generate markdown report with summary and graph
 
 options:
-  -h, --help            show this help message and exi
+  -h, --help            show this help message and exit
 ```
 
 ```bash
