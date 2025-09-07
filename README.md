@@ -27,17 +27,18 @@ Team : Théo Pirouelle
 ```bash
 > python cli.py
 
-usage: cli.py [-h] {collect,show} ...
+usage: cli.py [-h] {collect,report,report-md} ...
 
 System Monitor CLI
 
 positional arguments:
-  {collect,show}
-    collect       Collect system metrics
-    show          Show last collected metrics
+  {collect,report,report-md}
+    collect             Collect system metrics
+    report              Generate performance report
+    report-md           Generate markdown report with summary and graph
 
 options:
-  -h, --help      show this help message and exit
+  -h, --help            show this help message and exit
 ```
 
 ```bash
@@ -61,5 +62,17 @@ options:
   --limit LIMIT      Number of data points to include
   --since SINCE      Start datetime (ISO format: YYYY-MM-DDTHH:MM)
   --last {hour,day}  Use a pre-defined time filter
-  --save             Save report as PNG instead of showing i
+  --save             Save report as PNG instead of showing it
+```
+
+```bash
+> python cli.py report-md
+
+usage: cli.py report-md [-h] [--limit LIMIT] [--since SINCE] [--last {hour,day}]
+
+options:
+  -h, --help         show this help message and exit
+  --limit LIMIT      Number of data points to include
+  --since SINCE      Start datetime (ISO format: YYYY-MM-DDTHH:MM)
+  --last {hour,day}  Use a pre-defined time filter
 ```

@@ -49,7 +49,21 @@ def main():
     report_parser.add_argument("--since", type=str, help="Start datetime (ISO format: YYYY-MM-DDTHH:MM)")
     report_parser.add_argument("--last", choices=["hour", "day"], help="Use a pre-defined time filter")
     report_parser.add_argument("--save", action="store_true", help="Save report as PNG instead of showing it")
-    report_parser.set_defaults(func=lambda args: report.generate_plot(limit=args.limit, since=parse_time_filter(args), save=args.save))
+    report_parser.set_defaults(func=lambda args: report.generate_plot(
+        limit=args.limit,
+        since=parse_time_filter(args),
+        save=args.save
+    ))
+
+    # Commande : report-md
+    md_parser = subparsers.add_parser("report-md", help="Generate markdown report with summary and graph")
+    md_parser.add_argument("--limit", type=int, default=100, help="Number of data points to include")
+    md_parser.add_argument("--since", type=str, help="Start datetime (ISO format: YYYY-MM-DDTHH:MM)")
+    md_parser.add_argument("--last", choices=["hour", "day"], help="Use a pre-defined time filter")
+    md_parser.set_defaults(func=lambda args: report.generate_markdown_report(
+        limit=args.limit,
+        since=parse_time_filter(args)
+    ))
 
     # Parse & exécute
     args = parser.parse_args()

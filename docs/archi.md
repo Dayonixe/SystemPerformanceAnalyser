@@ -74,4 +74,3 @@ Les données sont enregistrées dans `data/metrics.db` au format SQLite, avec la
 
 * Export CSV/JSON
 * Alertes en temps réel
-* Génération de rapport Markdown/PDF
